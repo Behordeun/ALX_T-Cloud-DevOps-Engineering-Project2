@@ -102,9 +102,9 @@ Resources:
               echo "<P>But now I am able to work on this project by carefully curating the course materials, doing additional researches and a number of trials and errors</P>" >> index.html
               echo "<a href="https://www.alx-t.com/">Thanks to Udacity and ALX-T for this great opportunity. It means a lot to my career</a>" >> index.html
 
-      # ToDo: AMI ID of Ubuntu Linux machine. Too get one, try creating a VM from the web console. 
+      # AMI ID of Amazon Linux machine deployed. 
       ImageId: ami-0ca285d4c2cda3300
-      # ToDo: Change the key-pair name, as applicable to you. 
+      # Key_Pair Name 
       KeyName: jumpbox-key
       SecurityGroups:
       - Ref: WebServerSecurityGroup
