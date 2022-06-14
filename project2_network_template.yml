@@ -1,33 +1,34 @@
 Description: >
-    Network Stack Script for Udacity ALX-T Cloud DevOps Engineering Nanodegree Project 2 by Muhammad Abiodun SULAIMAN 2022
+    network template script for Udacity ALX-T Cloud DevOps Engineering Nanodegree Scholarship Project 2
 
-Parameters: 
+Parameters:
+
     EnvironmentName:
-        Description: An environment name that will be prefixed to resource names.
+        Description: An environment name that will be prefixed to resource names
         Type: String
-    
+
     VpcCIDR:
-        Description: Here, the IP address of the VPC is specified.
+        Description: Please enter the IP range (CIDR notation) for this VPC
         Type: String
         Default: 10.0.0.0/16
 
     PublicSubnet1CIDR:
-        Description: The IP address for the first public subnet is specified here.
+        Description: Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone
         Type: String
         Default: 10.0.0.0/24
 
     PublicSubnet2CIDR:
-        Description: The IP address for the second public subnet is specified here.
+        Description: Please enter the IP range (CIDR notation) for the public subnet in the second Availability Zone
         Type: String
         Default: 10.0.1.0/24
 
     PrivateSubnet1CIDR:
-        Description: The IP address for the first private subnet is specified here.
+        Description: Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone
         Type: String
         Default: 10.0.2.0/24
 
     PrivateSubnet2CIDR:
-        Description: The IP address for the second private subnet is specified here.
+        Description: Please enter the IP range (CIDR notation) for the private subnet in the second Availability Zone
         Type: String
         Default: 10.0.3.0/24
 
@@ -38,8 +39,8 @@ Resources:
         Properties:
             CidrBlock: !Ref VpcCIDR
             EnableDnsHostnames: true
-            Tags:
-                - Key: Name
+            Tags: 
+                - Key: Name 
                   Value: !Ref EnvironmentName
 
     InternetGateway:
@@ -55,48 +56,48 @@ Resources:
             InternetGatewayId: !Ref InternetGateway
             VpcId: !Ref VPC
 
-    PublicSubnet1:
-            Type: AWS::EC2::Subnet
-            Properties:
-                VpcId: !Ref VpcCIDR
-                AvailabilityZone: !Select [ 0, !GetAZs '' ]
-                CidrBlock: !Ref PublicSubnet1CIDR
-                MapPublicIpOnLaunch: true
-                Tags:
-                    - Key: Name
-                      Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
+    PublicSubnet1: 
+        Type: AWS::EC2::Subnet
+        Properties:
+            VpcId: !Ref VPC
+            AvailabilityZone: !Select [ 0, !GetAZs '' ]
+            CidrBlock: !Ref PublicSubnet1CIDR
+            MapPublicIpOnLaunch: true
+            Tags: 
+                - Key: Name 
+                  Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
 
-    PublicSubnet2:
+    PublicSubnet2: 
         Type: AWS::EC2::Subnet
         Properties:
             VpcId: !Ref VPC
             AvailabilityZone: !Select [ 1, !GetAZs '' ]
             CidrBlock: !Ref PublicSubnet2CIDR
             MapPublicIpOnLaunch: true
-            Tags:
-                - Key: Name
+            Tags: 
+                - Key: Name 
                   Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
 
-    PrivateSubnet1:
+    PrivateSubnet1: 
         Type: AWS::EC2::Subnet
         Properties:
-            VpcId: !Ref VpcCIDR
+            VpcId: !Ref VPC
             AvailabilityZone: !Select [ 0, !GetAZs '' ]
             CidrBlock: !Ref PrivateSubnet1CIDR
             MapPublicIpOnLaunch: false
-            Tags:
-                - Key: Name
+            Tags: 
+                - Key: Name 
                   Value: !Sub ${EnvironmentName} Private Subnet (AZ1)
 
-    PrivateSubnet2:
+    PrivateSubnet2: 
         Type: AWS::EC2::Subnet
         Properties:
             VpcId: !Ref VPC
             AvailabilityZone: !Select [ 1, !GetAZs '' ]
             CidrBlock: !Ref PrivateSubnet2CIDR
             MapPublicIpOnLaunch: false
-            Tags:
-                - Key: Name
+            Tags: 
+                - Key: Name 
                   Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
 
     NatGateway1EIP:
@@ -138,7 +139,7 @@ Resources:
             RouteTableId: !Ref PublicRouteTable
             DestinationCidrBlock: 0.0.0.0/0
             GatewayId: !Ref InternetGateway
-      
+
     PublicSubnet1RouteTableAssociation:
         Type: AWS::EC2::SubnetRouteTableAssociation
         Properties:
@@ -150,6 +151,7 @@ Resources:
         Properties:
             RouteTableId: !Ref PublicRouteTable
             SubnetId: !Ref PublicSubnet2
+    
 
     PrivateRouteTable1:
         Type: AWS::EC2::RouteTable
@@ -205,52 +207,52 @@ Outputs:
         Description: Public Routing
         Value: !Ref PublicRouteTable
         Export:
-          Name: !Sub ${EnvironmentName}-PUBLIC-ROUTE-TABLE
+          Name: !Sub ${EnvironmentName}-PUB-RT
 
     VPCPrivateRouteTable1:
         Description: Private Routing AZ1
         Value: !Ref PrivateRouteTable1
         Export:
-          Name: !Sub ${EnvironmentName}-PRIVATE-ROUTE-TABLE-1
+          Name: !Sub ${EnvironmentName}-PRI1-RT
 
     VPCPrivateRouteTable2:
         Description: Private Routing AZ2
         Value: !Ref PrivateRouteTable2
         Export:
-          Name: !Sub ${EnvironmentName}-PRIVATE-ROUTE-TABLE-2
+          Name: !Sub ${EnvironmentName}-PRI2-RT
 
     PublicSubnets:
         Description: A list of the public subnets
         Value: !Join [ ",", [ !Ref PublicSubnet1, !Ref PublicSubnet2 ]]
         Export:
-          Name: !Sub ${EnvironmentName}-PUBLIC-SUBNETS
+          Name: !Sub ${EnvironmentName}-PUB-NETS
 
     PrivateSubnets:
         Description: A list of the private subnets
         Value: !Join [ ",", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2 ]]
         Export:
-          Name: !Sub ${EnvironmentName}-PRIVATE-SUBNETS
+          Name: !Sub ${EnvironmentName}-PRIV-NETS
 
     PublicSubnet1:
         Description: A reference to the public subnet in the 1st Availability Zone
         Value: !Ref PublicSubnet1
         Export:
-          Name: !Sub ${EnvironmentName}-PUBLIC-SUBNET-1
+          Name: !Sub ${EnvironmentName}-PUB1-SN
 
     PublicSubnet2: 
         Description: A reference to the public subnet in the 2nd Availability Zone
         Value: !Ref PublicSubnet2
         Export:
-          Name: !Sub ${EnvironmentName}-PUBLIC-SUBNET-2
+          Name: !Sub ${EnvironmentName}-PUB2-SN
 
     PrivateSubnet1:
         Description: A reference to the private subnet in the 1st Availability Zone
         Value: !Ref PrivateSubnet1
         Export:
-          Name: !Sub ${EnvironmentName}-PRIVATE-SUBNET-1
+          Name: !Sub ${EnvironmentName}-PRI1-SN
 
     PrivateSubnet2: 
         Description: A reference to the private subnet in the 2nd Availability Zone
         Value: !Ref PrivateSubnet2
         Export:
-          Name: !Sub ${EnvironmentName}-PRIVATE-SUBNET-2
+          Name: !Sub ${EnvironmentName}-PRI2-SN
