@@ -72,8 +72,8 @@ Resources:
           !Sub "${EnvironmentName}-VPCID"
       SecurityGroupIngress:
       - IpProtocol: tcp
-        FromPort: 8080
-        ToPort: 8080
+        FromPort: 80
+        ToPort: 80
         CidrIp: 0.0.0.0/0
       - IpProtocol: tcp
         FromPort: 22
@@ -94,18 +94,10 @@ Resources:
               sudo apt-get update -y
               sudo apt-get install apache2 -y
               sudo systemctl start apache2.service
-              cd /var/www/html
-              echo "<h1>Hello, welcome to Muhammad's Udacity ALX-T Cloud DevOps Engineering Nanodegree project.</h1>" > index.html
-              echo "<h3>I am excited to see the project live.</h3>" >> index.html
-              echo "<P>This project over the last one month has afforded me the opportunity to acquire great skills on DevOps with AWS cloud services.</P>"  >> index.html
-              echo "<P>Until last month, I have never heard of CloudFormation through my career as a Data Scientist</P>" >>  index.html
-              echo "<P>But now I am able to work on this project by carefully curating the course materials, doing additional researches and a number of trials and errors</P>" >> index.html
-              echo "<a href="https://www.alx-t.com/">Thanks to Udacity and ALX-T for this great opportunity. It means a lot to my career</a>" >> index.html
-
+              xdg-open https://my992008361880b1.s3.us-west-2.amazonaws.com/index.html?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEI3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMyJIMEYCIQDIO8lTHbOeaGkupHFXA%2F8sRSipWFqwc14g53QjDXMh6gIhAKgJkDRT3pRmVdBS9sIap7SA6B3JTxAymTiNjORX4nSWKvECCJX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQAhoMOTkyMDA4MzYxODgwIgyLnfD40Wfnk9d08WsqxQKpCsk73T%2FQt8LT8M7WYA1%2BG6H52h2vlT9Ky3J%2FiyOmsnMLAUpA2sfeY1uegrEL%2FX8ZsSFwlamy6uhR7rS8mkXsIn%2Fn%2Bgoo8Cfp%2F%2BOXJA6ki1V8r9NcixcALUfLp2S1EApfwdIV%2BbtSwebMq2cXv6FxH5ibM4jRd%2BHFq%2B5uVbEzBmEUwqCDga%2BcJWUUiaE0fnWuc79%2FJe7DAToTjsXzstUyOgGlQfVTwd7dbjkOYE8M18vMrHskfAXnQGpMpJ46%2F6MRy3THgnngl4VFkvcxyPISlEpx9rRUlP8tyMlZUxu6IhvGHSsbHGhe%2BGAu7AgOw1AtrC1ngwJK6ugyR2h9xHcllY7Tsvh6L9LQykis3UXFl5s6gg%2F4iX1oJlDxYIkqJfRYimfHx5ZUG30gJ%2BFid5r%2FOhnumhqfrttAG4%2F1czpuo6Yh0ms0MI2lo5UGOrICx76JbfAAJW2AlL1cpMyhAb%2BhE3MMNeEcM8h91nSleS3fAf8e64wvFSdwUtbFCKzsNbKEzdiyxBKv3jBGjI1fpXzhVOQjkwTD0yKELk4v9kuX2QrbLaHjrGEB%2FHB19bKdyw9JpmE6jq6i%2FGN4G2zGCBhSpKy5uzAcMTlhkUGVTgCRAuQ2s%2BQYduB%2FAErC8UO4sWQKeNLa643vBz6f86Cclnafh5w2Ry7gCVEhIdWRXxdOgA8U2cUzC00oIPLig2Blc%2FHHMWLn0I7LcFDPlKrO1bfY64hh5EeWmpkmFGXNpRQp1myH8AsbAlCexW1RrWV9Ouv39C32%2FU7GYpPEErPTZvecSq0MGUtdc2Un8luOZv7dGCMKTm0WC7eqY0N%2BA%2FMdCdeHSGDrGr2GefHG4pWacmvc&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220614T202144Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA6N6COK6MEJJJGPPL%2F20220614%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=b43a0cf6e94b94a65f50fcf76e2912a448e6f44f60d2a3ba66cd4875f366b7f4
       # AMI ID of Ubuntu Linux machine deployed.
       ImageId: ami-0cfa91bdbc3be780c
-      # Key_Pair Name
-      KeyName: jumpbox-key
+
       SecurityGroups:
       - Ref: WebServerSecurityGroup
       InstanceType: t2.micro
